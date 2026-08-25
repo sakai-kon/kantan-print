@@ -4,87 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2563eb">
-  <link rel="manifest" href="manifest.json">
   <title>かんたん印刷</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="ui-enhancements.css">
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><div class="brand-icon">🖨️</div><div><h1>かんたん印刷</h1><p>スキャンした紙に文字を入れて、そのまま印刷</p></div></div>
+    <div class="brand"><div class="brand-icon">🖨️</div><div><h1>かんたん印刷</h1><p>スキャンした紙も、白紙の文書も、かんたんに作って印刷</p></div></div>
     <div class="top-actions">
-      <button id="undoButton" class="tool-button" disabled>↶ 元に戻す</button>
-      <button id="redoButton" class="tool-button" disabled>↷ やり直す</button>
-      <button id="helpButton" class="help-button">❓ 使い方・全機能</button>
-      <button id="printButton" class="primary print-button" disabled>🖨️ 印刷する</button>
+      <button id="undoButton" disabled>↶ 元に戻す</button>
+      <button id="redoButton" disabled>↷ やり直す</button>
+      <button id="helpButton">❓ 使い方・全機能</button>
+      <button id="previewButton">👀 印刷プレビュー</button>
+      <button id="printButton" class="primary" disabled>🖨️ 印刷する</button>
     </div>
   </header>
 
   <main>
-    <section id="startScreen" class="start-screen"><div id="dropZone" class="drop-zone">
-      <div class="drop-icon">📄</div><h2>スキャンしたファイルを開く</h2>
-      <p>画像（JPG・PNG・WEBP）やPDFをここから開けます。</p>
-      <label class="file-button">📂 ファイルを選ぶ<input id="fileInput" type="file" accept="image/*,.pdf,application/pdf" hidden></label>
-      <p class="hint">ファイルをこの場所へドラッグ＆ドロップしても開けます。</p>
-      <button id="startHelpButton" class="secondary-help-button">❓ はじめて使う方はこちら</button>
-    </div></section>
+    <section id="homeScreen" class="home-screen">
+      <div class="home-card">
+        <div class="home-icon">🖨️</div>
+        <h2>何を作りますか？</h2>
+        <p>やりたいことに合わせて選んでください。</p>
+        <div class="mode-grid">
+          <button id="scanModeButton" class="mode-card"><span>📄</span><strong>スキャンした紙を編集</strong><small>画像やPDFを開いて、切り取り・文字入れ・印刷</small></button>
+          <button id="blankModeButton" class="mode-card"><span>📝</span><strong>白紙から文書を作る</strong><small>A4などの白紙に文字や画像を置いて、かんたんな文書を作成</small></button>
+        </div>
+        <div class="home-tools"><button id="homeHelpButton">❓ はじめて使う方はこちら</button></div>
+      </div>
+    </section>
 
     <section id="editor" class="editor hidden">
       <aside class="sidebar">
-        <div class="side-section"><h2>編集</h2>
-          <button id="addTextButton" class="big-button">🔤 文字を入れる</button>
-          <button id="cropButton" class="big-button">✂️ 切り取る</button>
-          <button id="rotateButton" class="big-button">🔄 90°回す</button>
-          <button id="resetButton" class="big-button">↺ このページを元に戻す</button>
+        <div class="side-section"><h2>文書</h2>
+          <button id="backHomeButton" class="big-button">🏠 ホームへ戻る</button>
+          <button id="newBlankButton" class="big-button">📝 白紙を追加</button>
+          <button id="openFileButton" class="big-button">📂 スキャンを開く</button>
+          <input id="fileInput" type="file" accept="image/*,.pdf,application/pdf" hidden>
         </div>
-        <div class="side-section"><h2>大きさ</h2><label class="range-row"><span id="scaleLabel">100%</span><input id="scaleRange" type="range" min="25" max="200" value="100"></label></div>
-        <div class="side-section"><h2>きれいにする</h2>
+        <div class="side-section"><h2>追加</h2>
+          <button id="addTextButton" class="big-button">🔤 文字を入れる</button>
+          <button id="addImageButton" class="big-button">🖼️ 画像を入れる</button>
+          <input id="imageInput" type="file" accept="image/*" hidden>
+        </div>
+        <div class="side-section"><h2>紙</h2>
+          <label class="select-row"><span>用紙</span><select id="paperSize"><option value="A4">A4</option><option value="A5">A5</option><option value="B5">B5</option></select></label>
+          <label class="select-row"><span>向き</span><select id="orientation"><option value="portrait">たて</option><option value="landscape">よこ</option></select></label>
+          <button id="rotatePageButton" class="big-button">🔄 紙を90°回す</button>
+        </div>
+        <div class="side-section"><h2>画像を整える</h2>
+          <button id="cropButton" class="big-button">✂️ 切り取る</button>
+          <label class="range-row"><span id="scaleLabel">100%</span><input id="scaleRange" type="range" min="25" max="200" value="100"></label>
           <label class="range-row"><span>明るさ</span><input id="brightnessRange" type="range" min="60" max="160" value="100"></label>
           <label class="range-row"><span>コントラスト</span><input id="contrastRange" type="range" min="60" max="180" value="100"></label>
           <button id="grayscaleButton" class="big-button">⚫ 白黒にする</button>
         </div>
-        <div class="side-section"><h2>ファイル</h2><button id="newFileButton" class="big-button">📄 別のファイルを開く</button></div>
+        <div class="side-section selected-section"><h2>選択中</h2>
+          <button id="editSelectedButton" class="big-button" disabled>✏️ 文字を編集</button>
+          <button id="deleteSelectedButton" class="big-button danger" disabled>🗑️ 削除</button>
+        </div>
       </aside>
 
       <section class="workspace">
-        <div id="cropNotice" class="crop-notice hidden">切り取りたい範囲をマウスでドラッグしてください。<button id="cancelCropButton">キャンセル</button><button id="applyCropButton" class="primary small">ここで切り取る</button></div>
-        <div id="pageArea" class="page-area"><canvas id="documentCanvas"></canvas><div id="textLayer"></div><div id="cropOverlay" class="crop-overlay hidden"></div></div>
-        <div id="emptyHint" class="empty-hint hidden">ここに読み込んだ紙が表示されます</div>
-        <div class="page-controls" id="pageControls"><button id="prevPageButton">◀ 前のページ</button><span id="pageIndicator">1 / 1</span><button id="nextPageButton">次のページ ▶</button></div>
+        <div id="cropNotice" class="crop-notice hidden">切り取りたい範囲をドラッグしてください。<button id="cancelCropButton">キャンセル</button><button id="applyCropButton" class="primary small">ここで切り取る</button></div>
+        <div id="pageArea" class="page-area"><div id="documentLayer" class="document-layer"></div><div id="cropOverlay" class="crop-overlay hidden"></div></div>
+        <div class="page-controls"><button id="prevPageButton">◀ 前のページ</button><span id="pageIndicator">1 / 1</span><button id="nextPageButton">次のページ ▶</button><button id="addPageButton">＋ ページ追加</button></div>
       </section>
     </section>
   </main>
 
   <div id="textDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="textDialogTitle">
-    <div class="dialog text-dialog-wide">
-      <h2 id="textDialogTitle">文字を入れる</h2>
-      <div class="text-dialog-grid">
-        <div class="text-settings">
-          <label class="field-label" for="textInput">文字</label><textarea id="textInput" rows="4" placeholder="ここに文字を入力してください"></textarea>
-          <div class="two-columns"><label class="field-label">文字の大きさ<input id="textSize" type="range" min="12" max="96" value="28"></label><label class="field-label">文字の色<input id="textColor" type="color" value="#111111"></label></div>
-          <div class="style-buttons"><button id="boldTextButton" type="button">太字</button><button id="verticalTextButton" type="button">縦書き</button></div>
-        </div>
-        <div class="preview-panel"><div class="preview-title">実際の見た目</div><div id="textPreviewPaper" class="text-preview-paper"><div id="textPreview" class="text-preview">入力した文字がここに表示されます</div></div><div class="preview-note">文字・大きさ・色・太字・縦書きを変えると、ここもすぐ変わります。</div></div>
-      </div>
+    <div class="dialog text-dialog-wide"><h2 id="textDialogTitle">文字を入れる</h2>
+      <div class="text-dialog-grid"><div class="text-settings">
+        <label class="field-label" for="textInput">文字</label><textarea id="textInput" rows="5" placeholder="ここに文字を入力してください"></textarea>
+        <div class="two-columns"><label class="field-label">文字サイズ<input id="textSize" type="range" min="10" max="96" value="28"></label><label class="field-label">文字色<input id="textColor" type="color" value="#111111"></label></div>
+        <div class="style-buttons"><button id="boldTextButton" type="button">太字</button><button id="italicTextButton" type="button">斜体</button><button id="underlineTextButton" type="button">下線</button><button id="verticalTextButton" type="button">縦書き</button></div>
+        <div class="align-buttons"><button data-align="left">左寄せ</button><button data-align="center">中央</button><button data-align="right">右寄せ</button></div>
+      </div><div class="preview-panel"><div class="preview-title">実際の見た目</div><div class="text-preview-paper"><div id="textPreview" class="text-preview">入力した文字がここに表示されます</div></div><div class="preview-note">入力・サイズ・色・文字装飾を変えると、ここもすぐ変わります。</div></div></div>
       <div class="dialog-actions"><button id="cancelText">キャンセル</button><button id="confirmText" class="primary">文字を入れる</button></div>
     </div>
   </div>
 
-  <div id="helpDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
-    <div class="dialog help-dialog">
-      <div class="help-header"><div><h2 id="helpTitle">❓ かんたん印刷の使い方</h2><p>迷ったら、この順番で使えばOKです。</p></div><button id="closeHelpButton" class="close-button">✕</button></div>
+  <div id="helpDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="dialog help-dialog"><div class="help-header"><div><h2>❓ かんたん印刷の使い方</h2><p>Wordのように何でもできるのではなく、紙を作って印刷するための必要最低限に絞っています。</p></div><button id="closeHelpButton">✕</button></div>
       <div class="help-content">
-        <section class="help-card"><div class="help-icon">1</div><div><h3>📂 紙を開く</h3><p>スキャンしたJPG・PNG・WEBP画像やPDFを「ファイルを選ぶ」から開きます。PDFが複数ページでもページを移動できます。</p></div></section>
-        <section class="help-card"><div class="help-icon">2</div><div><h3>✂️ 紙を整える</h3><p>「切り取る」で必要な部分だけ残したり、「90°回す」で向きを直したり、「大きさ」で表示サイズを変えられます。</p></div></section>
-        <section class="help-card"><div class="help-icon">3</div><div><h3>☀️ きれいにする</h3><p>明るさやコントラストを調整できます。「白黒にする」は白黒印刷したい書類にも便利です。</p></div></section>
-        <section class="help-card"><div class="help-icon">4</div><div><h3>🔤 文字を入れる</h3><p>文字を入力して、紙の上へ置きます。追加後はドラッグで移動、ダブルクリックで編集、選んでDeleteキーで削除できます。</p></div></section>
-        <section class="help-card"><div class="help-icon">5</div><div><h3>🖨️ 印刷する</h3><p>「印刷する」を押すとWindows / ブラウザ標準の印刷画面が開きます。そこでプリンター、用紙、部数、カラーなどを選んで印刷します。</p></div></section>
-        <section class="help-card tips"><div class="help-icon">★</div><div><h3>↶ 間違えたとき</h3><p>上の「元に戻す」「やり直す」が使えます。キーボードのCtrl+Z / Ctrl+Yにも対応しています。</p></div></section>
+        <section class="help-card"><b>① スキャンを編集</b><p>画像やPDFを開き、切り取り・回転・明るさ調整・文字入れをして印刷できます。複数ページPDFにも対応しています。</p></section>
+        <section class="help-card"><b>② 白紙から作る</b><p>A4などの白いページに文字を何個でも追加できます。画像も置けるので、簡単なお知らせ・メモ・案内・資料を作れます。</p></section>
+        <section class="help-card"><b>③ 文字</b><p>文字サイズ、色、太字、斜体、下線、左/中央/右揃え、縦書きを使えます。文字はドラッグで移動できます。</p></section>
+        <section class="help-card"><b>④ 画像</b><p>画像をページに追加し、ドラッグで動かしたり、右下のハンドルで大きさを変えたりできます。</p></section>
+        <section class="help-card"><b>⑤ ページ</b><p>ページ追加、前後移動、A4/A5/B5、たて/よこの切り替えに対応しています。</p></section>
+        <section class="help-card"><b>⑥ 印刷</b><p>「印刷プレビュー」で仕上がりを確認してから「印刷する」を押すと、Windows / ブラウザ標準の印刷画面が開きます。</p></section>
+        <section class="help-card tips"><b>↶ 間違えても大丈夫</b><p>元に戻す・やり直す、Ctrl+Z / Ctrl+Yに対応しています。</p></section>
       </div>
     </div>
   </div>
 
+  <div id="previewDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true"><div class="dialog preview-dialog"><div class="help-header"><div><h2>👀 印刷プレビュー</h2><p>この状態で印刷されます。</p></div><button id="closePreviewButton">✕</button></div><div id="previewPages" class="preview-pages"></div><div class="dialog-actions"><button id="previewPrintButton" class="primary">🖨️ このまま印刷</button></div></div></div>
   <script type="module" src="script.js"></script>
-  <script src="ui-enhancements.js"></script>
 </body>
 </html>
