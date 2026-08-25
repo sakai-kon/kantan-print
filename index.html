@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>かんたん印刷</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>🖨️ かんたん印刷</h1>
+      <p>画像やPDFに文字を入れて、そのまま印刷できます</p>
+    </div>
+    <button id="printButton" class="primary" disabled>🖨️ 印刷する</button>
+  </header>
+
+  <main>
+    <section id="startScreen" class="start-screen">
+      <div id="dropZone" class="drop-zone">
+        <div class="drop-icon">📄</div>
+        <h2>ファイルを開く</h2>
+        <p>画像（JPG・PNG・WEBP）またはPDFを選んでください</p>
+        <label class="file-button">
+          ファイルを選ぶ
+          <input id="fileInput" type="file" accept="image/*,.pdf,application/pdf" hidden>
+        </label>
+        <p class="hint">ここへファイルをドラッグ＆ドロップすることもできます</p>
+      </div>
+    </section>
+
+    <section id="editor" class="editor hidden">
+      <aside class="toolbar">
+        <button id="addTextButton">🔤 文字を入れる</button>
+        <button id="cropButton">✂️ 切り取る</button>
+        <button id="rotateButton">🔄 回す</button>
+        <label>📐 大きさ <input id="scaleRange" type="range" min="25" max="200" value="100"></label>
+        <button id="resetButton">↶ 元に戻す</button>
+        <button id="newFileButton">📄 別のファイルを開く</button>
+      </aside>
+
+      <section class="workspace">
+        <div id="pageArea" class="page-area">
+          <canvas id="documentCanvas"></canvas>
+          <div id="textLayer"></div>
+        </div>
+        <div id="emptyHint" class="empty-hint">ここに読み込んだ紙が表示されます</div>
+      </section>
+    </section>
+  </main>
+
+  <div id="textDialog" class="dialog-backdrop hidden">
+    <div class="dialog">
+      <h2>文字を入れる</h2>
+      <textarea id="textInput" rows="4" placeholder="ここに文字を入力してください"></textarea>
+      <label>文字の大きさ <input id="textSize" type="range" min="12" max="72" value="28"></label>
+      <div class="dialog-actions">
+        <button id="cancelText">キャンセル</button>
+        <button id="confirmText" class="primary">文字を入れる</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
