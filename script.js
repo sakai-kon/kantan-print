@@ -516,6 +516,12 @@ function enterCropMode() {
     alert('画像やPDFを開いているページで使えます。');
     return;
   }
+  if (page.scale !== 1 || page.rotation !== 0) {
+    pushHistory();
+    page.scale = 1;
+    page.rotation = 0;
+    render();
+  }
   cropMode = true;
   cropStart = null;
   cropRect = null;
@@ -855,6 +861,7 @@ $('pageArea').addEventListener('pointermove', (event) => {
 });
 $('pageArea').addEventListener('pointerup', () => { if (cropMode) cropStart = null; });
 $('pageArea').addEventListener('pointercancel', () => { cropStart = null; });
+window.addEventListener('pointerup', endSliderHistory);
 
 $('previewButton').addEventListener('click', openPreview);
 $('closePreviewButton').addEventListener('click', closePreview);
@@ -896,6 +903,8 @@ document.addEventListener('drop', (event) => {
 });
 
 pages = [];
+$('printButton').disabled = true;
+$('previewButton').disabled = true;
 updateHistoryButtons();
 $('editor').classList.add('hidden');
 $('homeScreen').classList.remove('hidden');
