@@ -118,6 +118,12 @@ main { min-height: calc(100vh - 84px); }
 .style-buttons button.active { background: #dbeafe; border-color: #60a5fa; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
 
+.print-pages { display: none; }
+.print-sheet { position: relative; overflow: hidden; background: #fff; page-break-after: always; break-after: page; }
+.print-sheet:last-child { page-break-after: auto; break-after: auto; }
+.print-sheet canvas { display: block; width: 100%; height: 100%; }
+.print-text { position: absolute; white-space: pre-wrap; line-height: 1.15; }
+
 .hidden { display: none !important; }
 
 @media (max-width: 900px) {
@@ -132,11 +138,10 @@ main { min-height: calc(100vh - 84px); }
 @media print {
   html, body { background: #fff; }
   body { min-width: 0; }
-  .topbar, .sidebar, .crop-notice, .page-controls, .empty-hint, .dialog-backdrop, .crop-overlay { display: none !important; }
-  main, .editor, .workspace { display: block; min-height: 0; padding: 0; overflow: visible; background: #fff; }
-  .page-area { margin: 0; box-shadow: none; width: max-content; }
-  #documentCanvas { max-width: none; }
-  #textLayer { overflow: visible; }
-  .text-item { border-color: transparent !important; background: transparent !important; }
+  .topbar, .sidebar, .crop-notice, .page-controls, .empty-hint, .dialog-backdrop, .crop-overlay, .workspace, .page-area { display: none !important; }
+  main, .editor { display: block; min-height: 0; padding: 0; overflow: visible; background: #fff; }
+  .print-pages { display: block !important; }
+  .print-sheet { width: 100% !important; height: auto !important; min-height: 100vh; }
+  .print-sheet canvas { width: 100%; height: auto; }
   @page { margin: 0; size: auto; }
 }
