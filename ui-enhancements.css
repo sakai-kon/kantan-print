@@ -1,0 +1,35 @@
+.help-button { background: #eef6ff; border-color: #93c5fd; color: #1d4ed8; }
+.help-button:hover { background: #dbeafe; }
+.secondary-help-button { margin-top: 18px; background: #f8fafc; }
+
+.text-dialog-wide { width: min(900px, 100%); }
+.text-dialog-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
+.preview-panel { background: #f8fafc; border: 1px solid #dbe3ed; border-radius: 14px; padding: 14px; }
+.preview-title { font-weight: 800; margin-bottom: 10px; }
+.text-preview-paper { min-height: 240px; padding: 28px; display: grid; place-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 4px 16px #0f172a14; overflow: auto; }
+.text-preview { max-width: 100%; line-height: 1.2; white-space: pre-wrap; text-align: left; overflow-wrap: anywhere; }
+.preview-note { margin-top: 10px; font-size: 13px; color: #64748b; line-height: 1.5; }
+
+.help-dialog { width: min(820px, 100%); max-height: min(88vh, 820px); overflow: hidden; }
+.help-header { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.help-header h2 { margin: 0 0 4px; }
+.help-header p { margin: 0; color: #64748b; }
+.close-button { border: 0; width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+.help-content { margin-top: 18px; max-height: 68vh; overflow: auto; padding-right: 4px; display: grid; gap: 12px; }
+.help-card { display: grid; grid-template-columns: 46px 1fr; gap: 14px; align-items: start; padding: 15px; background: #f8fafc; border: 1px solid #dbe3ed; border-radius: 14px; }
+.help-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: #dbeafe; color: #1d4ed8; font-weight: 800; }
+.help-card h3 { margin: 0 0 5px; font-size: 17px; }
+.help-card p { margin: 0; line-height: 1.6; color: #475569; }
+.help-card.tips { background: #fffbeb; border-color: #fde68a; }
+.help-card.tips .help-icon { background: #fef3c7; color: #a16207; }
+
+@media (max-width: 760px) {
+  .text-dialog-grid { grid-template-columns: 1fr; }
+  .preview-panel { order: -1; }
+  .text-preview-paper { min-height: 160px; }
+  .top-actions { gap: 6px; }
+}
+
+@media print {
+  .help-button, .secondary-help-button { display: none !important; }
+}
