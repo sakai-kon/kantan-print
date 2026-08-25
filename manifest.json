@@ -1,0 +1,11 @@
+{
+  "name": "かんたん印刷",
+  "short_name": "かんたん印刷",
+  "description": "スキャンした画像やPDFに文字を入れて簡単に印刷するためのアプリです。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef2f7",
+  "theme_color": "#2563eb",
+  "lang": "ja",
+  "icons": []
+}
