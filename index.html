@@ -7,106 +7,84 @@
   <link rel="manifest" href="manifest.json">
   <title>かんたん印刷</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ui-enhancements.css">
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
-      <div class="brand-icon">🖨️</div>
-      <div>
-        <h1>かんたん印刷</h1>
-        <p>スキャンした紙に文字を入れて、そのまま印刷</p>
-      </div>
-    </div>
+    <div class="brand"><div class="brand-icon">🖨️</div><div><h1>かんたん印刷</h1><p>スキャンした紙に文字を入れて、そのまま印刷</p></div></div>
     <div class="top-actions">
       <button id="undoButton" class="tool-button" disabled>↶ 元に戻す</button>
       <button id="redoButton" class="tool-button" disabled>↷ やり直す</button>
+      <button id="helpButton" class="help-button">❓ 使い方・全機能</button>
       <button id="printButton" class="primary print-button" disabled>🖨️ 印刷する</button>
     </div>
   </header>
 
   <main>
-    <section id="startScreen" class="start-screen">
-      <div id="dropZone" class="drop-zone">
-        <div class="drop-icon">📄</div>
-        <h2>スキャンしたファイルを開く</h2>
-        <p>画像（JPG・PNG・WEBP）やPDFをここから開けます。</p>
-        <label class="file-button">
-          📂 ファイルを選ぶ
-          <input id="fileInput" type="file" accept="image/*,.pdf,application/pdf" hidden>
-        </label>
-        <p class="hint">ファイルをこの場所へドラッグ＆ドロップしても開けます。</p>
-      </div>
-    </section>
+    <section id="startScreen" class="start-screen"><div id="dropZone" class="drop-zone">
+      <div class="drop-icon">📄</div><h2>スキャンしたファイルを開く</h2>
+      <p>画像（JPG・PNG・WEBP）やPDFをここから開けます。</p>
+      <label class="file-button">📂 ファイルを選ぶ<input id="fileInput" type="file" accept="image/*,.pdf,application/pdf" hidden></label>
+      <p class="hint">ファイルをこの場所へドラッグ＆ドロップしても開けます。</p>
+      <button id="startHelpButton" class="secondary-help-button">❓ はじめて使う方はこちら</button>
+    </div></section>
 
     <section id="editor" class="editor hidden">
       <aside class="sidebar">
-        <div class="side-section">
-          <h2>編集</h2>
+        <div class="side-section"><h2>編集</h2>
           <button id="addTextButton" class="big-button">🔤 文字を入れる</button>
           <button id="cropButton" class="big-button">✂️ 切り取る</button>
           <button id="rotateButton" class="big-button">🔄 90°回す</button>
           <button id="resetButton" class="big-button">↺ このページを元に戻す</button>
         </div>
-
-        <div class="side-section">
-          <h2>大きさ</h2>
-          <label class="range-row">
-            <span id="scaleLabel">100%</span>
-            <input id="scaleRange" type="range" min="25" max="200" value="100">
-          </label>
-        </div>
-
-        <div class="side-section">
-          <h2>きれいにする</h2>
+        <div class="side-section"><h2>大きさ</h2><label class="range-row"><span id="scaleLabel">100%</span><input id="scaleRange" type="range" min="25" max="200" value="100"></label></div>
+        <div class="side-section"><h2>きれいにする</h2>
           <label class="range-row"><span>明るさ</span><input id="brightnessRange" type="range" min="60" max="160" value="100"></label>
           <label class="range-row"><span>コントラスト</span><input id="contrastRange" type="range" min="60" max="180" value="100"></label>
           <button id="grayscaleButton" class="big-button">⚫ 白黒にする</button>
         </div>
-
-        <div class="side-section">
-          <h2>ファイル</h2>
-          <button id="newFileButton" class="big-button">📄 別のファイルを開く</button>
-        </div>
+        <div class="side-section"><h2>ファイル</h2><button id="newFileButton" class="big-button">📄 別のファイルを開く</button></div>
       </aside>
 
       <section class="workspace">
         <div id="cropNotice" class="crop-notice hidden">切り取りたい範囲をマウスでドラッグしてください。<button id="cancelCropButton">キャンセル</button><button id="applyCropButton" class="primary small">ここで切り取る</button></div>
-        <div id="pageArea" class="page-area">
-          <canvas id="documentCanvas"></canvas>
-          <div id="textLayer"></div>
-          <div id="cropOverlay" class="crop-overlay hidden"></div>
-        </div>
+        <div id="pageArea" class="page-area"><canvas id="documentCanvas"></canvas><div id="textLayer"></div><div id="cropOverlay" class="crop-overlay hidden"></div></div>
         <div id="emptyHint" class="empty-hint hidden">ここに読み込んだ紙が表示されます</div>
-
-        <div class="page-controls" id="pageControls">
-          <button id="prevPageButton">◀ 前のページ</button>
-          <span id="pageIndicator">1 / 1</span>
-          <button id="nextPageButton">次のページ ▶</button>
-        </div>
+        <div class="page-controls" id="pageControls"><button id="prevPageButton">◀ 前のページ</button><span id="pageIndicator">1 / 1</span><button id="nextPageButton">次のページ ▶</button></div>
       </section>
     </section>
   </main>
 
   <div id="textDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="textDialogTitle">
-    <div class="dialog">
+    <div class="dialog text-dialog-wide">
       <h2 id="textDialogTitle">文字を入れる</h2>
-      <label class="field-label" for="textInput">文字</label>
-      <textarea id="textInput" rows="4" placeholder="ここに文字を入力してください"></textarea>
-      <div class="two-columns">
-        <label class="field-label">文字の大きさ<input id="textSize" type="range" min="12" max="96" value="28"></label>
-        <label class="field-label">文字の色<input id="textColor" type="color" value="#111111"></label>
+      <div class="text-dialog-grid">
+        <div class="text-settings">
+          <label class="field-label" for="textInput">文字</label><textarea id="textInput" rows="4" placeholder="ここに文字を入力してください"></textarea>
+          <div class="two-columns"><label class="field-label">文字の大きさ<input id="textSize" type="range" min="12" max="96" value="28"></label><label class="field-label">文字の色<input id="textColor" type="color" value="#111111"></label></div>
+          <div class="style-buttons"><button id="boldTextButton" type="button">太字</button><button id="verticalTextButton" type="button">縦書き</button></div>
+        </div>
+        <div class="preview-panel"><div class="preview-title">実際の見た目</div><div id="textPreviewPaper" class="text-preview-paper"><div id="textPreview" class="text-preview">入力した文字がここに表示されます</div></div><div class="preview-note">文字・大きさ・色・太字・縦書きを変えると、ここもすぐ変わります。</div></div>
       </div>
-      <div class="style-buttons">
-        <button id="boldTextButton" type="button">太字</button>
-        <button id="verticalTextButton" type="button">縦書き</button>
-      </div>
-      <div class="dialog-actions">
-        <button id="cancelText">キャンセル</button>
-        <button id="confirmText" class="primary">文字を入れる</button>
+      <div class="dialog-actions"><button id="cancelText">キャンセル</button><button id="confirmText" class="primary">文字を入れる</button></div>
+    </div>
+  </div>
+
+  <div id="helpDialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="dialog help-dialog">
+      <div class="help-header"><div><h2 id="helpTitle">❓ かんたん印刷の使い方</h2><p>迷ったら、この順番で使えばOKです。</p></div><button id="closeHelpButton" class="close-button">✕</button></div>
+      <div class="help-content">
+        <section class="help-card"><div class="help-icon">1</div><div><h3>📂 紙を開く</h3><p>スキャンしたJPG・PNG・WEBP画像やPDFを「ファイルを選ぶ」から開きます。PDFが複数ページでもページを移動できます。</p></div></section>
+        <section class="help-card"><div class="help-icon">2</div><div><h3>✂️ 紙を整える</h3><p>「切り取る」で必要な部分だけ残したり、「90°回す」で向きを直したり、「大きさ」で表示サイズを変えられます。</p></div></section>
+        <section class="help-card"><div class="help-icon">3</div><div><h3>☀️ きれいにする</h3><p>明るさやコントラストを調整できます。「白黒にする」は白黒印刷したい書類にも便利です。</p></div></section>
+        <section class="help-card"><div class="help-icon">4</div><div><h3>🔤 文字を入れる</h3><p>文字を入力して、紙の上へ置きます。追加後はドラッグで移動、ダブルクリックで編集、選んでDeleteキーで削除できます。</p></div></section>
+        <section class="help-card"><div class="help-icon">5</div><div><h3>🖨️ 印刷する</h3><p>「印刷する」を押すとWindows / ブラウザ標準の印刷画面が開きます。そこでプリンター、用紙、部数、カラーなどを選んで印刷します。</p></div></section>
+        <section class="help-card tips"><div class="help-icon">★</div><div><h3>↶ 間違えたとき</h3><p>上の「元に戻す」「やり直す」が使えます。キーボードのCtrl+Z / Ctrl+Yにも対応しています。</p></div></section>
       </div>
     </div>
   </div>
 
   <script type="module" src="script.js"></script>
+  <script src="ui-enhancements.js"></script>
 </body>
 </html>
